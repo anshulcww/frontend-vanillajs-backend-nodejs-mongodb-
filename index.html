@@ -14,6 +14,9 @@
 			<input type="text" id="email" name="Email" placeholder="Email"/>
 		</div>
 		<div>
+			<input type="password" id="password" name="pass" placeholder="Password"/>
+		</div>
+		<div>
 			<input id="submit" type="submit" name="submit"/>
 		</div>
 		</form>
@@ -25,9 +28,11 @@
 			e.preventDefault();
 			var uname = document.getElementById('username').value;
 			var email = document.getElementById('email').value;
+			var password = document.getElementById('password').value;
 			var userDetails = {
 				username : uname,
-				usermail: email
+				usermail: email,
+				password: password
 			}
 			//crete XHR object
 			xhr = new XMLHttpRequest();

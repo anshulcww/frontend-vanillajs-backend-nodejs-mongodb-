@@ -1,4 +1,5 @@
 var http = require('http');
+var crypto = require('crypto');
 
 
 
@@ -28,14 +29,45 @@ http.createServer(function(request, response){
 	request.on('end', function(){
 		console.log(data);
 		data = JSON.parse(data);
-		console.log(data);
-		database.collection("username").insertOne(data, function(error, results){
-  		console.log("1 documnent inserted" + data);
-		response.end(JSON.stringify(results));
+		console.log(data.username);
+		//check if user already exist
+		database.collection("username").find({username: data.username}).toArray(function(err, docs){
+			if(!docs.length){
+				saltHashPassword(data.password);
+				function genRandomString (length){
+				    return crypto.randomBytes(Math.ceil(length/2))
+				            .toString('hex') /** convert to hexadecimal format */
+				            .slice(0,length);   /** return required number of characters */
+				};
+				function sha512(password, salt){
+				    var hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
+				    hash.update(password);
+				    var value = hash.digest('hex');
+				    return {
+				        salt:salt,
+				        passwordHash:value
+				    };
+				};
+				function saltHashPassword(userpassword) {
+				    var salt = genRandomString(16); /** Gives us salt of length 16 */
+				    var passwordData = sha512(userpassword, salt);
+				    console.log('UserPassword = '+userpassword);
+				    console.log('Passwordhash = '+passwordData.passwordHash);
+				    console.log('nSalt = '+passwordData.salt);
+				}
+				database.collection("username").insertOne(data, function(error, results){
+		  		console.log("1 documnent inserted" + data);
+				response.end(JSON.stringify(results));
 
-  	});
+  			});
+			}else{
+				console.log("already exist");
+								
+			};
+		
 	});
-	}
+	});
+};
 
 	// Gets the Form Data
 }).listen(8000, function(){
