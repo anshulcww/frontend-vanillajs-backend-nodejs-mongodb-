@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Building Blocks</title>
+</head>
+<body>
+	<div class="wrap">
+		<form id="send" method="post" action='app.js'>
+		<div>
+			<input type="text" id="username" name="UserName" placeholder="Name"/>
+		</div>
+		<div>
+			<input type="text" id="email" name="Email" placeholder="Email"/>
+		</div>
+		<div>
+			<input id="submit" type="submit" name="submit"/>
+		</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		document.getElementById('submit').addEventListener('click', sendData);
+		var xhr;
+		function sendData(e){
+			e.preventDefault();
+			var uname = document.getElementById('username').value;
+			var email = document.getElementById('email').value;
+			var userDetails = {
+				username : uname,
+				usermail: email
+			}
+			//crete XHR object
+			xhr = new XMLHttpRequest();
+			// open function -: type, url, asynchroous
+			xhr.open('POST', 'http://localhost:8000/' , true )
+			xhr.onload = function(){
+				if(xhr.status == 200){
+					console.log(xhr)
+				}
+			}
+			//send Request
+
+
+        	xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.send(JSON.stringify(userDetails));
+		}
+
+	</script>
+</body>
+</html>
