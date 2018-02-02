@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <title>Building Blocks</title>
 </head>
+<style type="text/css">
+	#response{
+	height: 100px;
+    width: 100px;
+    background-color: aliceblue;
+	}
+</style>
 <body>
 	<div class="wrap">
 		<form id="send" method="post" action='app.js'>
@@ -21,6 +28,7 @@
 		</div>
 		</form>
 	</div>
+	<div id="response"></div>
 	<script type="text/javascript">
 		document.getElementById('submit').addEventListener('click', sendData);
 		var xhr;
@@ -34,15 +42,23 @@
 				usermail: email,
 				password: password
 			}
+			
 			//crete XHR object
 			xhr = new XMLHttpRequest();
 			// open function -: type, url, asynchroous
 			xhr.open('POST', 'http://localhost:8000/' , true )
 			xhr.onload = function(){
 				if(xhr.status == 200){
-					console.log(xhr)
-				}
-			}
+					console.log(xhr.response);
+					document.getElementById("response").innerHTML= '<h1>' + 
+								"username already Exist" +
+								'</h1>';
+
+						}
+					}
+
+
+
 			//send Request
 
 

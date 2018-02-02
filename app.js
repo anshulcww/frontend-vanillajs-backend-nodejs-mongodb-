@@ -1,5 +1,6 @@
 var http = require('http');
 var crypto = require('crypto');
+var fs = require('fs');
 
 
 
@@ -32,6 +33,7 @@ http.createServer(function(request, response){
 		console.log(data.username);
 		//check if user already exist
 		database.collection("username").find({username: data.username}).toArray(function(err, docs){
+			//crypto password
 			if(!docs.length){
 				saltHashPassword(data.password);
 				function genRandomString (length){
@@ -55,17 +57,19 @@ http.createServer(function(request, response){
 				    console.log('Passwordhash = '+passwordData.passwordHash);
 				    console.log('nSalt = '+passwordData.salt);
 				}
+				//inserting Data
 				database.collection("username").insertOne(data, function(error, results){
 		  		console.log("1 documnent inserted" + data);
 				response.end(JSON.stringify(results));
 
   			});
 			}else{
-				console.log("already exist");
-								
+				var userExist = {
+					"already": ''
+				};
+				response.end(JSON.stringify(userExist));
 			};
-		
-	});
+		});
 	});
 };
 
