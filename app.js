@@ -65,7 +65,7 @@ http.createServer(function(request, response){
   			});
 			}else{
 				var userExist = {
-					"already": ''
+					"already": data
 				};
 				response.end(JSON.stringify(userExist));
 			};
