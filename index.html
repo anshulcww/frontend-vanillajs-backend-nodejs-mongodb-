@@ -36,7 +36,7 @@
 	<script type="text/javascript">
 		document.getElementById('submit').addEventListener('click', sendData);
 		var xhr;
-		var url = 'http://localhost:8000/';
+		var url = 'http://localhost:8000/user/username';
 		document.getElementById('search').addEventListener('click', findData);
 		function findData(e){
 			e.preventDefault();
@@ -75,19 +75,15 @@
 			xhr.open('POST', url , true )
 			xhr.onload = function(){
 				if(xhr.status == 200){
-					console.log(xhr);
-					document.getElementById("response").innerHTML= '<h1>' + 
+					
+					console.log(xhr.response);
+					/*document.getElementById("response").innerHTML= '<h1>' + 
 								"username already Exist" +
-								'</h1>';
+								'</h1>';*/
 
 						}
 					}
-
-
-
 			//send Request
-
-
         	xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.send(JSON.stringify(userDetails));
 		}
